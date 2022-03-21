@@ -1,0 +1,63 @@
+m d:
+ %d ; -1
+ %d ; 1
+ %d ; 9
+ %d ; 10
+ %d ; 11
+ %d ; 15
+ %d ; 16
+ %d ; 17
+ %d ; 99
+ %d ; 100
+ %d ; 101
+ %d ; -9
+ %d ; -10
+ %d ; -11
+ %d ; -14
+ %d ; -15
+ %d ; -16
+ %d ; -99
+ %d ; -100
+ %d ; -101
+ %d ; INT_MAX
+ %d ; INT_MIN
+ %d ; LONG_MAX
+ %d ; LONG_MIN
+ %d ; UINT_MAX
+ %d ; ULONG_MAX
+ %d ; 9223372036854775807LL
+ %d ; INT_MAX
+ %d ; INT_MAX
+ %d ; INT_MAX
+ %d %d %d %d %d %d ; INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42
+
+b d:
+	- d:
+	 %-1d ; 0
+	 %-2d ; -1
+	 %-3d ; 1
+	 %-4d ; 9
+	 %-1d ; 10
+	 %-2d ; 11
+	 %-3d ; 15
+	 %-4d ; 16
+	 %-5d ; 17
+	 %-1d ; 99
+	 %-2d ; 100
+	 %-3d ; 101
+	 %-1d ; -9
+	 %-2d ; -10
+	 %-3d ; -11
+	 %-4d ; -14
+	 %-5d ; -15
+	 %-6d ; -16
+	 %-1d ; -99
+	 %-2d ; -100
+	 %-9d ; -101
+	 %-10d ; INT_MIN
+	 %-11d ; LONG_MAX
+	 %-12d ; LONG_MIN
+	 %-13d ; UINT_MAX
+	 %-14d ; ULONG_MAX
+	 %-15d ; 9223372036854775807LL
+	 %-9d %-10d %-11d %-12d %-13d %-14d %-15d; INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42
