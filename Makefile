@@ -6,7 +6,7 @@
 #    By: tcasale <tcasale@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/21 12:36:41 by tcasale           #+#    #+#              #
-#    Updated: 2022/03/21 19:50:05 by tcasale          ###   ########.fr        #
+#    Updated: 2022/03/22 14:39:24 by tcasale          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME	= 'printf_tester'
@@ -17,7 +17,8 @@ FLAG	= ''
 SRCS	= ./srcs/printf_tester.c \
 		./srcs/printf_tester_utils.c \
 		./srcs/printf_tester_parsing.c \
-		./srcs/printf_tester_debug.c
+		./srcs/printf_tester_debug.c \
+		./srcs/ft_split.c
 
 OBJS	=${SRCS:.c=.o}
 
@@ -25,6 +26,7 @@ HEADER	= includes
 
 CC		= gcc
 CFLAGS	= -Wall -Werror -Wextra
+RM		= rm -f
 
 PRINTF	= ../ft_printf
 
@@ -43,7 +45,8 @@ get_next_line :
 ft_printf :
 				$(MAKE) -C $(PRINTF)
 
-clean :			rm -f ${OBJS}
+clean :
+				${RM} ${OBJS}
 				$(MAKE) -C ./srcs/get_next_line $@
 				$(MAKE) -C $(PRINTF) $@
 

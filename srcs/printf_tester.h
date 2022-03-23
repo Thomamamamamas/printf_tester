@@ -6,10 +6,10 @@
 /*   By: tcasale <tcasale@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 12:28:23 by tcasale           #+#    #+#             */
-/*   Updated: 2022/03/21 19:50:15 by tcasale          ###   ########.fr       */
+/*   Updated: 2022/03/23 12:07:03 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-# ifndef PRINTF_TESTER_H
+#ifndef PRINTF_TESTER_H
 # define PRINTF_TESTER_H
 
 # include "get_next_line/get_next_line.h" 
@@ -19,34 +19,45 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-typedef struct	s_pt
+typedef struct s_pt
 {
 	int			conversion;
 	int			flag;
-	int			stop;
 	int			option1;
 	int			option2;
 	int			all;
 	const char	*content;
+	char		**argument_str;
+	int			str_len;
+	long long	*argument_nbr;
 }				t_pt;
 
 //printf_tester
 int				count_test_line(char *conv_file, t_pt *pt);
-int				test_conversion(char *conv_file, t_pt *pt);
+int				test_conversion(char *conv_file, int total, t_pt *pt);
+int				test_line(char *line, t_pt *pt);
 
 //printf_tester_utils
 void			set_tester(t_pt *pt);
+void			set_argument_array(int len, t_pt *pt);
 void			check_tester_value(t_pt *pt);
-void			parse_arg(int argc, char **argv, t_pt *pt);
 char			*get_file_name(t_pt *pt);
+char			**strcat_2d_array(char **s1, char **s2);
 
 //printf_tester_parsing
+void			parse_argv(int argc, char **argv, t_pt *pt);
 int				start_iteration(t_pt *pt);
+char			**parse_test(char *line);
+char			*parse_content_conversion(char *content);
+void			assign_argument(char *conversion, char **test_split, t_pt *pt);
 
 //printf_tester_debug
 void			print_tester_value(t_pt *pt);
 
-//ft_printf
-int	ft_printf(const char *content, ...);
+//ft_split
+char			**ft_split(char const *s, char c);
 
-# endif
+//ft_printf
+int				ft_printf(const char *content, ...);
+
+#endif

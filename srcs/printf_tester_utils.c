@@ -6,7 +6,7 @@
 /*   By: tcasale <tcasale@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 12:48:21 by tcasale           #+#    #+#             */
-/*   Updated: 2022/03/21 19:48:14 by tcasale          ###   ########.fr       */
+/*   Updated: 2022/03/23 12:10:48 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "printf_tester.h"
@@ -17,25 +17,13 @@ void	set_tester(t_pt *pt)
 	pt->flag = 0;
 	pt->option1 = 0;
 	pt->option2 = 0;
+	pt->str_len = 0;
 }
 
-void	parse_arg(int argc, char **argv, t_pt *pt)
+void	set_argument_array(int len, t_pt *pt)
 {
-	int	n;
-
-	n = 1;
-	while (n < argc)
-	{
-		if (n == 1)
-			pt->conversion = argv[n][0];
-		else if (n == 2)
-			pt->flag = argv[n][0];
-		else if (n == 3)
-			pt->option1 = argv[n][0];
-		else if (n == 4)
-			pt->option2 = argv[n][0];
-		n++;
-	}
+	pt->argument_nbr = (long long *)malloc(sizeof(long long) * len);
+	pt->argument_str = (char **)malloc(sizeof(char *) * len);
 }
 
 void	check_tester_value(t_pt *pt)
@@ -50,6 +38,7 @@ void	check_tester_value(t_pt *pt)
 char	*get_file_name(t_pt *pt)
 {
 	char	*str;
+	char	*tmp;
 
 	if (pt->all > 1)
 	{
@@ -70,8 +59,12 @@ char	*get_file_name(t_pt *pt)
 		else if (pt->conversion == 'X')
 			pt->conversion = '%';
 	}
-	str = (char *)malloc(sizeof(char) * 6);
-	*str = pt->conversion;
-	strcat(str, ".txt");
+	str = (char *)malloc(sizeof(char) * 13);
+	tmp = (char *)malloc(sizeof(char) * 6);
+	str = strcat(str, "tests/");
+	*tmp = pt->conversion;
+	strcat(tmp, ".txt");
+	strcat(str, tmp);
+	free(tmp);
 	return (str);
 }

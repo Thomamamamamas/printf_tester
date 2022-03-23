@@ -6,7 +6,7 @@
 /*   By: tcasale <tcasale@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 12:28:01 by tcasale           #+#    #+#             */
-/*   Updated: 2022/03/21 19:49:24 by tcasale          ###   ########.fr       */
+/*   Updated: 2022/03/23 12:16:12 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "printf_tester.h"
@@ -16,33 +16,67 @@ int	count_test_line(char *conv_file, t_pt *pt)
 	int		fd;
 	int		i;
 	int		res;
-	char	*str;
+	char	*line;
 
 	fd = open(conv_file, O_RDONLY);
 	i = 0;
 	res = 0;
-	str = get_next_line(fd);
-	while (str[0] != '\n' && i < start_iteration(pt))
+	line = get_next_line(fd);
+	while (line[0] != '\n' && i <= start_iteration(pt))
 	{
-		str = get_next_line(fd);
-		if (i < start_iteration(pt))
-		{
-
-		}
-		else
+		line = get_next_line(fd);
+		if (i == start_iteration(pt) && strchr(line, '%'))
 			res++;
+		if (line[0] == '\n')
+			i++;
 	}
-	free(str);
+	while (line)
+		line = get_next_line(fd);
+	free(line);
 	close(fd);
 	return (res);
 }
 
-int	test_conversion(char *conv_file, t_pt *pt)
+int	test_conversion(char *conv_file, int total, t_pt *pt)
 {
-	int	fd;
+	int		fd;
+	int		n;
+	int		i;
+	int		res;
+	char	*line;
 
 	fd = open(conv_file, O_RDONLY);
+	n = 0;
+	i = 0;
+	res = 0;
+	line = get_next_line(fd);
+	while (line[0] != '\n' && n < total)
+	{
+		line = get_next_line(fd);
+		if (i == start_iteration(pt) && strchr(line, '%'))
+		{
+			res += test_line(line, pt);
+			n++;
+			break ;
+		}
+		if (line[0] == '\n')
+			i++;
+	}
+	while (line)
+		line = get_next_line(fd);
+	free(line);
 	close(fd);
+	return (res);
+}
+
+int	test_line(char *line, t_pt *pt)
+{
+	char	**test_split;
+	char	*conversion;
+
+	test_split = parse_test(line);
+	conversion = parse_content_conversion(test_split[0]);
+	assign_argument(conversion, test_split, pt);
 	return (0);
 }
 
@@ -57,14 +91,12 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 		return (1);
 	set_tester(&pt);
-	parse_arg(argc, argv, &pt);
+	parse_argv(argc, argv, &pt);
 	check_tester_value(&pt);
-	print_tester_value(&pt);
 	conv_file = get_file_name(&pt);
-	printf("\n %s\n", conv_file);
 	total = count_test_line(conv_file, &pt);
-	printf("\n%d\n", total);
-	res = test_conversion(conv_file, &pt);
-	printf("\n%d\n", res);
+	res = test_conversion(conv_file, total, &pt);
+	print_tester_value(&pt);
+	printf("resultat %d/%d\n", res, total);
 	return (0);
 }
