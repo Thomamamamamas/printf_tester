@@ -6,13 +6,13 @@
 #    By: tcasale <tcasale@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/20 12:54:21 by tcasale           #+#    #+#              #
-#    Updated: 2022/03/20 12:54:24 by tcasale          ###   ########.fr        #
+#    Updated: 2022/03/25 15:37:46 by tcasale          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME	= get_next_line.a
 
-SRCS	= get_next_line.c \
-		get_next_line_utils.c
+SRCS	= get_next_line_bonus.c \
+		get_next_line_utils_bonus.c
 
 OBJS	= ${SRCS:.c=.o}
 

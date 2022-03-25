@@ -6,7 +6,7 @@
 /*   By: tcasale <tcasale@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 12:48:21 by tcasale           #+#    #+#             */
-/*   Updated: 2022/03/23 12:10:48 by tcasale          ###   ########.fr       */
+/*   Updated: 2022/03/25 16:28:30 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "printf_tester.h"
@@ -17,13 +17,21 @@ void	set_tester(t_pt *pt)
 	pt->flag = 0;
 	pt->option1 = 0;
 	pt->option2 = 0;
-	pt->str_len = 0;
+	pt->argument_str_len = 0;
+	pt->argument_nbr_len = 0;
 }
 
 void	set_argument_array(int len, t_pt *pt)
 {
+	if (pt->argument_nbr)
+		free(pt->argument_nbr);
+	if (pt->argument_str)
+		free(pt->argument_str);
 	pt->argument_nbr = (long long *)malloc(sizeof(long long) * len);
 	pt->argument_str = (char **)malloc(sizeof(char *) * len);
+	pt->len_printf = (int *)malloc(sizeof(int) * 2);
+	pt->argument_str_len = 0;
+	pt->argument_nbr_len = 0;
 }
 
 void	check_tester_value(t_pt *pt)

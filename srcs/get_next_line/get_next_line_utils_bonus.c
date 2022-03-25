@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcasale <tcasale@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/20 12:53:50 by tcasale           #+#    #+#             */
-/*   Updated: 2022/03/20 12:53:52 by tcasale          ###   ########.fr       */
+/*   Created: 2022/03/20 12:53:57 by tcasale           #+#    #+#             */
+/*   Updated: 2022/03/20 12:54:01 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*gnl_ft_strchr(char *s, int c)
 {

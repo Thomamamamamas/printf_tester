@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcasale <tcasale@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/20 12:55:06 by tcasale           #+#    #+#             */
-/*   Updated: 2022/03/20 12:55:27 by tcasale          ###   ########.fr       */
+/*   Created: 2022/03/20 12:53:40 by tcasale           #+#    #+#             */
+/*   Updated: 2022/03/20 12:53:42 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*gnl_trimline(char *save)
 {
@@ -69,25 +69,25 @@ char	*gnl_restline(char *save)
 
 char	*get_next_line(int fd)
 {
-	static char	*save;
+	static char	*save[FD_MAX];
 	char		*line;
 	char		buf[BUFFER_SIZE + 1];
 	int			bytes_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FD_MAX)
 		return (NULL);
 	bytes_read = 1;
-	while (bytes_read && !gnl_ft_strchr(save, '\n'))
+	while (bytes_read && !gnl_ft_strchr(save[fd], '\n'))
 	{
 		bytes_read = read(fd, buf, BUFFER_SIZE);
 		if (bytes_read == -1)
 			return (NULL);
 		buf[bytes_read] = 0;
-		save = gnl_ft_strjoin(save, buf);
-		if (!save)
+		save[fd] = gnl_ft_strjoin(save[fd], buf);
+		if (!save[fd])
 			return (NULL);
 	}
-	line = gnl_trimline(save);
-	save = gnl_restline(save);
+	line = gnl_trimline(save[fd]);
+	save[fd] = gnl_restline(save[fd]);
 	return (line);
 }

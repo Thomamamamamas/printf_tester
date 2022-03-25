@@ -6,7 +6,7 @@
 /*   By: tcasale <tcasale@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 19:47:12 by tcasale           #+#    #+#             */
-/*   Updated: 2022/03/23 12:18:21 by tcasale          ###   ########.fr       */
+/*   Updated: 2022/03/24 18:33:21 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "printf_tester.h"
@@ -49,7 +49,7 @@ int	start_iteration(t_pt *pt)
 	return (0);
 }
 
-char	**parse_test(char *line)
+char	**parse_test(char *line, t_pt *pt)
 {
 	char	**tmp;
 	char	**tmp2;
@@ -58,20 +58,21 @@ char	**parse_test(char *line)
 	int		n;
 
 	tmp = ft_split(line, ';');
+	pt->content = strdup(tmp[0]);
 	tmp2 = ft_split(tmp[1], ',');
-	printf("%c\n", tmp2[0][0]);
 	len_tmp2 = 0;
-	while (tmp2[len_tmp2][0])
+	while (tmp2[len_tmp2] != NULL)
 		len_tmp2++;
-	printf("%d\n", len_tmp2);
 	str = (char **)malloc(sizeof(char *) * (1 + len_tmp2) + 1);
+	if (!str)
+		return (NULL);
 	n = 0;
 	while (n < len_tmp2 + 1)
 	{
 		if (n == 0)
 			str[0] = strdup(tmp[0]);
 		else
-			str[n] = strdup(tmp[n - 1]);
+			str[n] = strdup(tmp2[n - 1]);
 		n++;
 	}
 	free(tmp);
@@ -87,21 +88,20 @@ char	*parse_content_conversion(char *content)
 
 	n = 0;
 	len = 0;
-	while (content[n] && content[n] != ';')
+	while (content[n])
 	{
 		if (content[n++] == '%')
 			len++;
-		n++;
 	}
 	str = (char *)malloc(sizeof(char) * len + 1);
 	n = 0;
 	len = 0;
-	while (content[n] && content[n] != ';')
+	while (content[n])
 	{
 		if (content[n++] == '%')
 			str[len++] = content[n];
-		n++;
 	}
+	str[n] = '\0';
 	return (str);
 }
 
@@ -113,15 +113,23 @@ void	assign_argument(char *conversion, char **test_split, t_pt *pt)
 	set_argument_array((int)strlen(conversion), pt);
 	while (conversion[n] && test_split[n + 1] && n < (int)strlen(conversion))
 	{
-		if (conversion[n] == 'c')
+		if (conversion[n] == 'c' || conversion[n] == 'd' || conversion[n] == 'i' || conversion[n] == '%')
+		{
 			pt->argument_nbr[n] = atoi(test_split[n + 1]);
-		else if (conversion[n] == 'd')
+			pt->argument_nbr_len++;
+		}
+		else if (conversion[n] == 'p' || conversion[n] == 'x' || conversion[n] == 'X')
+		{
 			pt->argument_nbr[n] = atoi(test_split[n + 1]);
+			pt->argument_nbr_len++;
+		}
 		else if (conversion[n] == 's')
 		{
 			pt->argument_str[n] = strdup(test_split[n + 1]);
-			pt->str_len++;
+			pt->argument_str_len++;
 		}
 		n++;
 	}
+	pt->argument_str[n] = NULL;
+	pt->argument_nbr[n] = 0;
 }
